@@ -1,31 +1,28 @@
 const { query } = require('express')
 const express = require('express')
 require("dotenv").config()
-
+require('./models/event')
 const PORT = process.env.PORT || 5000
 const { graphqlHTTP } = require('express-graphql')
 const { buildSchema } = require('graphql')
-
+const mongoose = require('mongoose')
 const app = express()
-const events = [] 
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+mongoose.connect(process.env.MONGOURI, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+})
+mongoose.connection.on('connected', () => {
+	console.log("Connected to mongodb !!")
+})
+mongoose.connection.on('error', (err) => {
+	console.log("err connecting", err)
+})
 
-// mutation {
-//     createEvent(eventInput: {title: "Why do u care?", description: "That's not true at all", price: 33.50, date: "2021-05-14T20:54:15.586Z"}) {
-//       title
-//       description
-//     }
-  
-//   }
-
-// query {
-//     events {
-//         _id
-//         date
-//     }
-// }
+const Event = mongoose.model("Event")
 
 app.use('/graphql', graphqlHTTP ({
     schema: buildSchema(`
@@ -56,19 +53,36 @@ app.use('/graphql', graphqlHTTP ({
     `),
     rootValue: {
         events: () =>{
-            return events
+            return Event
+                    .find()
+                    .then(events =>{
+                        return events.map(event =>{
+                            return { ...event._doc }
+                        })
+                    })
+                    .catch(err =>{
+                        console.log(err)
+                        throw err
+                    })
         },
         createEvent: (args) =>{
-            const event = {
-                _id: Math.random().toString(),
+            const event = new Event({
                 title: args.eventInput.title,
                 description: args.eventInput.description,
                 price: +args.eventInput.price,
-                date: args.eventInput.date
-            }
-            events.push(event)
-            //console.log(args)
-            return event 
+                date: new Date(args.eventInput.date)
+            })
+
+            return event
+                    .save()
+                    .then(result =>{
+                      //console.log(result)
+                        return { ...result._doc }
+                    })
+                    .catch(err =>{
+                       console.log(err)
+                       throw err
+                    })
         }
     },
     graphiql: true
