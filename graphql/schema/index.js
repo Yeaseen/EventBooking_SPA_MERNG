@@ -7,7 +7,7 @@ type Booking {
     event: Event!
     user: User!
     createdAt: String!
-    updatedAT: String!
+    updatedAt: String!
 }
 
 type Event {
