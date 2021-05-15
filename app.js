@@ -1,7 +1,8 @@
 const { query } = require('express')
 const express = require('express')
 require("dotenv").config()
-require('./models/event')
+const bcrypt = require('bcryptjs')
+
 const PORT = process.env.PORT || 5000
 const { graphqlHTTP } = require('express-graphql')
 const { buildSchema } = require('graphql')
@@ -12,19 +13,23 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 mongoose.connect(process.env.MONGOURI, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 })
 mongoose.connection.on('connected', () => {
-	console.log("Connected to mongodb !!")
+    console.log("Connected to mongodb !!")
 })
 mongoose.connection.on('error', (err) => {
-	console.log("err connecting", err)
+    console.log("err connecting", err)
 })
 
-const Event = mongoose.model("Event")
 
-app.use('/graphql', graphqlHTTP ({
+require('./models/event')
+require('./models/user')
+const Event = mongoose.model("Event")
+const User = mongoose.model("User")
+
+app.use('/graphql', graphqlHTTP({
     schema: buildSchema(`
 
         type Event {
@@ -33,6 +38,16 @@ app.use('/graphql', graphqlHTTP ({
             description: String!
             price: Float!
             date: String!
+        }
+        type User {
+            _id: ID!
+            email: String!
+            password: String
+        }
+
+        input UserInput {
+            email: String!
+            password: String!
         }
         input EventInput {
             title: String!
@@ -45,6 +60,7 @@ app.use('/graphql', graphqlHTTP ({
         }
         type RootMutation {
             createEvent(eventInput: EventInput): Event
+            createUser(userInput: UserInput): User
         }
         schema {
             query: RootQuery
@@ -52,48 +68,88 @@ app.use('/graphql', graphqlHTTP ({
         }
     `),
     rootValue: {
-        events: () =>{
+        events: () => {
             return Event
-                    .find()
-                    .then(events =>{
-                        return events.map(event =>{
-                            return { ...event._doc }
-                        })
+                .find()
+                .then(events => {
+                    return events.map(event => {
+                        return { ...event._doc }
                     })
-                    .catch(err =>{
-                        console.log(err)
-                        throw err
-                    })
+                })
+                .catch(err => {
+                    console.log(err)
+                    throw err
+                })
         },
-        createEvent: (args) =>{
+        createEvent: (args) => {
             const event = new Event({
                 title: args.eventInput.title,
                 description: args.eventInput.description,
                 price: +args.eventInput.price,
-                date: new Date(args.eventInput.date)
+                date: new Date(args.eventInput.date),
+                creator: '609f3c66096895042b10f2a4'
             })
 
+            let createdEvent
+
             return event
-                    .save()
-                    .then(result =>{
-                      //console.log(result)
-                        return { ...result._doc }
+                .save()
+                .then(result => {
+                    //console.log(result)
+                    createdEvent = { ...result._doc }
+                    return User.findById('609f3c66096895042b10f2a4')
+                })
+                .then(user =>{
+                    if(!user){
+                        throw new Error('User not FOUND!')
+                    }
+                    user.createdEvents.push(event)
+                    return user.save()
+                })
+                .then(result =>{
+                    return createdEvent
+                })
+                .catch(err => {
+                    console.log(err)
+                    throw err
+                })
+        },
+        createUser: (args) => {
+
+            return User.findOne({ email: args.userInput.email })
+                .then(savedUser => {
+                    if (savedUser) {
+                        throw new Error('User already Exists')
+                    }
+
+                    return bcrypt.hash(args.userInput.password, 12)
+                })
+                .then(hashedPassword => {
+                    const user = new User({
+                        email: args.userInput.email,
+                        password: hashedPassword
                     })
-                    .catch(err =>{
-                       console.log(err)
-                       throw err
-                    })
+                    return user.save()
+                })
+                .then(result => {
+                    //console.log(result)
+                    return { ...result._doc, password: null }
+                })
+                .catch(err => {
+                    throw err
+                })
+
         }
     },
     graphiql: true
 }))
 
-app.get('/', (req, res, next) =>{
+app.get('/', (req, res, next) => {
     res.send('Welcome to the NODE Server')
 })
 
 app.listen(PORT, () => {
-	console.log("Server is running on", PORT)
+    console.log("Server is running on", PORT)
 })
 
 
