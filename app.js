@@ -1,7 +1,7 @@
 const { query } = require('express')
 const express = require('express')
 require('dotenv').config()
-
+const isAuth = require('./middleware/requireLogin')
 const PORT = process.env.PORT || 5000
 const { graphqlHTTP } = require('express-graphql')
 const mongoose = require('mongoose')
@@ -23,6 +23,8 @@ mongoose.connection.on('error', (err) => {
 
 const graphqlSchema = require('./graphql/schema/index')
 const graphqlResolvers = require('./graphql/resolvers/index')
+
+app.use(isAuth)
 
 app.use(
   '/graphql',

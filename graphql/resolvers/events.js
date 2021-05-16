@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 require('../../models/event')
-
+require('../../models/user')
+const User = mongoose.model('User')
 const Event = mongoose.model('Event')
 const { transformedEvent } = require('./merge')
 
@@ -15,13 +16,16 @@ module.exports = {
       throw err
     }
   },
-  createEvent: async (args) => {
+  createEvent: async (args, req) => {
+    if (!req.isAuth) {
+      throw new Error('Unauthenticated!')
+    }
     const event = new Event({
       title: args.eventInput.title,
       description: args.eventInput.description,
       price: +args.eventInput.price,
       date: new Date(args.eventInput.date),
-      creator: '609f61da4263fa0a88e0af1d'
+      creator: req.userId
     })
 
     let createdEvent
@@ -30,7 +34,7 @@ module.exports = {
       const result = await event.save()
 
       createdEvent = transformedEvent(result)
-      const creator = await User.findById('609f61da4263fa0a88e0af1d')
+      const creator = await User.findById(req.userId)
       if (!creator) {
         throw new Error('Creator not FOUND!')
       }
