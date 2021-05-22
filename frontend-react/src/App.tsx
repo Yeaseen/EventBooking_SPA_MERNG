@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
-import AuthPage from './components/Auth'
-import BookingsPage from './components/Bookings'
-import EventsPage from './components/Events'
 
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import './App.css'
+import AuthPage from './components/screens/Auth'
+import BookingsPage from './components/screens/Bookings'
+import EventsPage from './components/screens/Events'
+import MainNavigation from './components/Navigation/MainNavber'
 
 const Routing = () => {
   useEffect(() => {}, [])
@@ -31,6 +32,7 @@ const Routing = () => {
 function App() {
   return (
     <BrowserRouter>
+      <MainNavigation />
       <Routing />
     </BrowserRouter>
   )

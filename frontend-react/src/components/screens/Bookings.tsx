@@ -1,12 +1,13 @@
 // eslint-disable-next-line
 import React, { useEffect, useState, useContext } from 'react'
 import { Link, withRouter } from 'react-router-dom'
-const AuthPage = () => {
+
+const BookingsPage = () => {
   return (
-    <div>
-      <h1>This is Auth Page</h1>
+    <div className="main-content">
+      <h1>This is Booking Page</h1>
     </div>
   )
 }
 
-export default withRouter(AuthPage)
+export default withRouter(BookingsPage)
