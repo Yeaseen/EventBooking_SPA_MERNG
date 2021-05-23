@@ -1,31 +1,77 @@
 @import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+
 .auth-form {
   width: 25rem;
   max-width: 80%;
   margin: 10rem auto;
 }
 .auth-form h2 {
-  margin: auto 7.5rem;
+  margin: auto 5rem;
   font-size: 3rem;
   font-family: 'Grand Hotel', cursive;
 }
 
-.form-control label {
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 90%;
+}
+
+.form__field {
+  font-family: inherit;
   width: 100%;
-  display: block;
-}
-
-.form-control input {
-  width: 100%;
-  display: block;
-}
-
-.form-control label {
-  margin-bottom: 0.5rem;
-}
-
-.form-control {
+  border: 0;
+  border-bottom: 2px solid #9b9b9b;
+  outline: 0;
+  font-size: 1.3rem;
+  color: black;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
   margin-bottom: 1rem;
+}
+.form__field::placeholder {
+  color: transparent;
+}
+
+.form__field:placeholder-shown ~ .form__label {
+  font-size: 1.3rem;
+  cursor: text;
+  top: 20px;
+}
+
+.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: #9b9b9b;
+}
+
+.form__field:focus {
+  padding-bottom: 6px;
+  font-weight: 500;
+  border-width: 3px;
+  border-image: linear-gradient(to right, #11998e, #38ef7d);
+  border-image-slice: 1;
+}
+
+.form__field:focus ~ .form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: #11998e;
+  font-weight: 700;
+}
+
+/* reset input */
+.form__field:required,
+.form__field:invalid {
+  box-shadow: none;
 }
 
 .form-actions button {
