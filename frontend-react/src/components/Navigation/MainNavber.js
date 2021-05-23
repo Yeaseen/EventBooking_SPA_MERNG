@@ -6,7 +6,7 @@ import './MainNavigation.css'
 const mainNavigation = (props) => (
   <header className="main-navigation">
     <div className="main-navigation__logo">
-      <h1>SimpleEvent</h1>
+      <h2>SimpleEvent</h2>
     </div>
     <nav className="main-navigation__items">
       <ul>

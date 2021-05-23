@@ -1,22 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+
 .main-navigation {
   position: fixed;
   left: 0;
   top: 0;
   width: 100%;
-  height: 3.5rem;
+  height: 5rem;
   background: #01d1d1;
   padding: 0 1rem;
   display: flex;
   align-items: center;
 }
 
-.main-navigation__logo h1 {
+.main-navigation__logo h2 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 3rem;
+  font-family: 'Grand Hotel', cursive;
 }
 
 .main-navigation__items {
-  margin-left: 1.5rem;
+  margin-left: 10rem;
 }
 
 .main-navigation__items ul {
@@ -27,7 +30,9 @@
 }
 
 .main-navigation__items li {
+  padding: 0rem 4rem;
   margin: 0 1rem;
+  font-size: 1.5rem;
 }
 
 .main-navigation__items a {

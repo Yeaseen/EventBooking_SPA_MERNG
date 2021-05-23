@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+.auth-form {
+  width: 25rem;
+  max-width: 80%;
+  margin: 10rem auto;
+}
+.auth-form h2 {
+  margin: auto 7.5rem;
+  font-size: 3rem;
+  font-family: 'Grand Hotel', cursive;
+}
+
+.form-control label {
+  width: 100%;
+  display: block;
+}
+
+.form-control input {
+  width: 100%;
+  display: block;
+}
+
+.form-control label {
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  margin-bottom: 1rem;
+}
+
+.form-actions button {
+  background: #01d1d1;
+  font: inherit;
+  border: 1px solid #01d1d1;
+  border-radius: 3px;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.26);
+  color: white;
+  cursor: pointer;
+}
+
+.form-actions button:hover,
+.form-actions button:active {
+  background: #01a7a7;
+  border-color: #01a7a7;
+}
