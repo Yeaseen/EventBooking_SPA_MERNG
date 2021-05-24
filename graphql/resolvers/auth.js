@@ -27,13 +27,13 @@ module.exports = {
     }
   },
   login: async ({ email, password }) => {
-    //console.log(email)
+    //console.log(email, password)
     const savedUser = await User.findOne({ email: email })
     if (!savedUser) {
       throw new Error('Invalid Email or Password')
     }
     const isEqual = await bcrypt.compare(password, savedUser.password)
-    if (isEqual) {
+    if (!isEqual) {
       throw new Error('Invalid Email or Password')
     }
     const token = jwt.sign(

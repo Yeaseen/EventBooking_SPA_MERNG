@@ -35,9 +35,9 @@ app.use(
   })
 )
 
-app.get('/', (req, res, next) => {
-  res.send('Welcome to the NODE Server')
-})
+// app.get('/', (req, res, next) => {
+//   res.send('Welcome to the NODE Server')
+// })
 
 app.listen(PORT, () => {
   console.log('Server is running on', PORT)

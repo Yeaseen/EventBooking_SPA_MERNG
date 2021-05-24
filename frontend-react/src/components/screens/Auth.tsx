@@ -2,21 +2,82 @@
 import React, { useEffect, useState, useRef, FormEvent } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import './Auth.css'
+import Swal from 'sweetalert2'
 
 const AuthPage = () => {
-  const email = useRef<HTMLInputElement>(null)
-  const password = useRef<HTMLInputElement>(null)
+  const emailEL = useRef<HTMLInputElement>(null)
+  const passwordEL = useRef<HTMLInputElement>(null)
+  const [isLogin, setIsLogin] = React.useState<boolean>(true)
+
+  const switchModeHandler = () => {
+    setIsLogin(!isLogin)
+  }
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (email && email.current) {
-      email.current.focus()
+    if (emailEL && emailEL.current) {
+      emailEL.current.focus()
     }
-    if (password && password.current) {
-      password.current.focus()
+    if (passwordEL && passwordEL.current) {
+      passwordEL.current.focus()
     }
-    console.log(email.current?.value)
-    console.log(password.current?.value)
+
+    const email = emailEL.current?.value
+    const password = passwordEL.current?.value
+
+    if (
+      !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        String(email).toLowerCase()
+      )
+    ) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Invalid email or password!'
+      })
+      return
+    }
+
+    //console.log(email, password)
+
+    let requestBody = {
+      query: `
+        query {
+          login(email: "${email}", password: "${password}") {
+            userId
+            token
+            tokenExpiration
+          }
+        }
+         `
+    }
+    if (!isLogin) {
+      requestBody = {
+        query: `
+          mutation {
+            createUser(userInput: {email: "${email}", password: "${password}"}){
+              _id
+              email
+            }
+          }
+        `
+      }
+    }
+
+    fetch('/graphql', {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   return (
@@ -27,7 +88,7 @@ const AuthPage = () => {
         <div className="form__group field">
           <input
             type="input"
-            ref={email}
+            ref={emailEL}
             className="form__field"
             placeholder="Email"
             name="email"
@@ -42,7 +103,7 @@ const AuthPage = () => {
         <div className="form__group field">
           <input
             type="password"
-            ref={password}
+            ref={passwordEL}
             className="form__field"
             placeholder="Password"
             name="password"
@@ -56,7 +117,9 @@ const AuthPage = () => {
 
         <div className="form-actions">
           <button type="submit">Submit</button>
-          <button type="button">Switch to Login</button>
+          <button type="button" onClick={switchModeHandler}>
+            Switch to {isLogin ? 'Signup' : 'Login'}
+          </button>
         </div>
       </form>
     </div>
