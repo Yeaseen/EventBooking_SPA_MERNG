@@ -8,6 +8,14 @@ const User = mongoose.model('User')
 module.exports = {
   createUser: async (args) => {
     try {
+      if (
+        !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+          String(args.userInput.email).toLowerCase()
+        )
+      ) {
+        throw new Error('Invalid Email or Password')
+      }
+
       const savedUser = await User.findOne({ email: args.userInput.email })
       if (savedUser) {
         throw new Error('User already Exists')
@@ -30,7 +38,7 @@ module.exports = {
     //console.log(email, password)
     const savedUser = await User.findOne({ email: email })
     if (!savedUser) {
-      throw new Error('Invalid Email or Password')
+      throw new Error('Invalid Email or Password on login')
     }
     const isEqual = await bcrypt.compare(password, savedUser.password)
     if (!isEqual) {

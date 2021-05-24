@@ -25,18 +25,18 @@ const AuthPage = () => {
     const email = emailEL.current?.value
     const password = passwordEL.current?.value
 
-    if (
-      !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        String(email).toLowerCase()
-      )
-    ) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Invalid email or password!'
-      })
-      return
-    }
+    // if (
+    //   !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+    //     String(email).toLowerCase()
+    //   )
+    // ) {
+    //   Swal.fire({
+    //     icon: 'error',
+    //     title: 'Oops...',
+    //     text: 'Invalid email or password!'
+    //   })
+    //   return
+    // }
 
     //console.log(email, password)
 
@@ -74,6 +74,7 @@ const AuthPage = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data)
+        //console.log(data.errors[0].message)
       })
       .catch((err) => {
         console.log(err)
