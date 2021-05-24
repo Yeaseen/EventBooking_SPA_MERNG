@@ -1,13 +1,17 @@
 // eslint-disable-next-line
-import React, { useEffect, useState, useRef, FormEvent } from 'react'
+import React, { useEffect, useContext, useRef, FormEvent } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import './Auth.css'
 import Swal from 'sweetalert2'
+
+import AuthContext from '../../context/auth-context'
 
 const AuthPage = () => {
   const emailEL = useRef<HTMLInputElement>(null)
   const passwordEL = useRef<HTMLInputElement>(null)
   const [isLogin, setIsLogin] = React.useState<boolean>(true)
+
+  const contextType = useContext(AuthContext)
 
   const switchModeHandler = () => {
     setIsLogin(!isLogin)
@@ -25,18 +29,18 @@ const AuthPage = () => {
     const email = emailEL.current?.value
     const password = passwordEL.current?.value
 
-    // if (
-    //   !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-    //     String(email).toLowerCase()
-    //   )
-    // ) {
-    //   Swal.fire({
-    //     icon: 'error',
-    //     title: 'Oops...',
-    //     text: 'Invalid email or password!'
-    //   })
-    //   return
-    // }
+    if (
+      !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+        String(email).toLowerCase()
+      )
+    ) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Invalid email or password!'
+      })
+      return
+    }
 
     //console.log(email, password)
 
@@ -72,9 +76,17 @@ const AuthPage = () => {
       }
     })
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data)
+      .then((resData) => {
+        console.log(resData)
         //console.log(data.errors[0].message)
+
+        if (resData.data.login.token) {
+          contextType.login(
+            resData.data.login.token,
+            resData.data.login.userId,
+            resData.data.login.tokenExpiration
+          )
+        }
       })
       .catch((err) => {
         console.log(err)
