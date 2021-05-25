@@ -77,15 +77,34 @@ const AuthPage = () => {
     })
       .then((res) => res.json())
       .then((resData) => {
-        console.log(resData)
-        //console.log(data.errors[0].message)
+        if (resData.errors) {
+          console.log(resData.errors[0].message)
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: resData.errors[0].message
+          })
+          return
+        } else {
+          console.log(resData)
+          if (resData.data.login.token) {
+            contextType.login(
+              resData.data.login.token,
+              resData.data.login.userId,
+              resData.data.login.tokenExpiration
+            )
 
-        if (resData.data.login.token) {
-          contextType.login(
-            resData.data.login.token,
-            resData.data.login.userId,
-            resData.data.login.tokenExpiration
-          )
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: isLogin
+                ? 'Logged in Successfully'
+                : 'Singed up Successfully',
+              showConfirmButton: false,
+              timer: 1200
+            })
+            return
+          }
         }
       })
       .catch((err) => {

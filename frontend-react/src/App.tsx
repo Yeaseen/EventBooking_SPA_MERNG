@@ -1,42 +1,33 @@
 import React, { useEffect, useState } from 'react'
 
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+
 import './App.css'
 import AuthPage from './components/screens/Auth'
 import BookingsPage from './components/screens/Bookings'
 import EventsPage from './components/screens/Events'
 import MainNavigation from './components/Navigation/MainNavber'
-
+import Swal from 'sweetalert2'
 import AuthContext from './context/auth-context'
 
 const Routing = (props: { token: null | string }) => {
-  useEffect(() => {}, [])
-
   return (
     <Switch>
-      {!props.token && <Redirect from="/" to="/auth" exact />}
       {props.token && <Redirect from="/" to="/events" exact />}
       {props.token && <Redirect from="/auth" to="/events" exact />}
 
-      {!props.token && (
-        <Route exact path="/auth">
-          <AuthPage />
-        </Route>
-      )}
-      <Route exact path="/events">
-        <EventsPage />
-      </Route>
+      {!props.token && <Route exact path="/auth" component={AuthPage} />}
 
-      {props.token && (
-        <Route exact path="/bookings">
-          <BookingsPage />
-        </Route>
-      )}
+      <Route exact path="/events" component={EventsPage} />
+      {props.token && <Route exact path="/bookings" component={BookingsPage} />}
+
+      {!props.token && <Redirect to="/auth" exact />}
     </Switch>
   )
 }
 
 function App() {
+  //const history = useHistory()
   const [token, setToken] = useState<null | string>(null)
   const [userId, setUserId] = useState<null | string>(null)
 
@@ -49,6 +40,7 @@ function App() {
     setToken(null)
     setUserId(null)
   }
+
   return (
     <BrowserRouter>
       <AuthContext.Provider

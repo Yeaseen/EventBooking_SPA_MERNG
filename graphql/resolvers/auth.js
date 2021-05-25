@@ -38,7 +38,7 @@ module.exports = {
     //console.log(email, password)
     const savedUser = await User.findOne({ email: email })
     if (!savedUser) {
-      throw new Error('Invalid Email or Password on login')
+      throw new Error('Invalid Email or Password')
     }
     const isEqual = await bcrypt.compare(password, savedUser.password)
     if (!isEqual) {
