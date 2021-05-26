@@ -87,7 +87,7 @@ const AuthPage = () => {
           return
         } else {
           console.log(resData)
-          if (resData.data.login.token) {
+          if (resData.data.login) {
             contextType.login(
               resData.data.login.token,
               resData.data.login.userId,
@@ -97,12 +97,20 @@ const AuthPage = () => {
             Swal.fire({
               position: 'top-end',
               icon: 'success',
-              title: isLogin
-                ? 'Logged in Successfully'
-                : 'Singed up Successfully',
+              title: 'Logged in Successfully',
               showConfirmButton: false,
               timer: 1200
             })
+            return
+          } else if (resData.data.createUser) {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Singed up Successfully',
+              showConfirmButton: false,
+              timer: 1200
+            })
+            setIsLogin(true)
             return
           }
         }

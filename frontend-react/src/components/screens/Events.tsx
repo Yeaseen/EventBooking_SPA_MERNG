@@ -4,7 +4,9 @@ import { Link, withRouter } from 'react-router-dom'
 const EventsPage = () => {
   return (
     <div className="main-content">
-      <h1>This is Events Page</h1>
+      <div>
+        <button>Create Event</button>
+      </div>
     </div>
   )
 }
