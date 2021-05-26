@@ -34,6 +34,8 @@ const AuthPage = () => {
     const email = emailEL.current?.value
     const password = passwordEL.current?.value
 
+    //console.log(email, password)
+
     if (
       !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
         String(email).toLowerCase()
@@ -73,6 +75,8 @@ const AuthPage = () => {
       }
     }
 
+    //console.log(requestBody)
+
     fetch('/graphql', {
       method: 'POST',
       body: JSON.stringify(requestBody),
@@ -83,7 +87,7 @@ const AuthPage = () => {
       .then((res) => res.json())
       .then((resData) => {
         if (resData.errors) {
-          console.log(resData.errors[0].message)
+          //console.log(resData.errors[0].message)
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -91,7 +95,7 @@ const AuthPage = () => {
           })
           return
         } else {
-          console.log(resData)
+          //console.log(resData)
           if (resData.data.login) {
             contextType.login(
               resData.data.login.token,
@@ -131,15 +135,17 @@ const AuthPage = () => {
         <h2>SimpleEvent</h2>
 
         <Card border="primary" style={{ width: '30rem' }}>
-          <div className={'cardfooter ' + (isLogin ? 'cardfooter2' : '')}>
-            <button type="button" onClick={switchToLogIn}>
-              LogIn
-            </button>
-          </div>
-          <div className={'cardfooter ' + (isLogin ? '' : 'cardfooter2')}>
-            <button type="button" onClick={switchToSignUp}>
-              SignUp
-            </button>
+          <div className="cardfooterparent">
+            <div className={'cardfooter ' + (isLogin ? 'cardfooter2' : '')}>
+              <button type="button" onClick={switchToLogIn}>
+                LogIn
+              </button>
+            </div>
+            <div className={'cardfooter ' + (isLogin ? '' : 'cardfooter2')}>
+              <button type="button" onClick={switchToSignUp}>
+                SignUp
+              </button>
+            </div>
           </div>
 
           <Card.Body>

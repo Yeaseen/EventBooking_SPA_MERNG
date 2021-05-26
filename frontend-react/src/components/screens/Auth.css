@@ -20,29 +20,31 @@
   box-shadow: 5px 10px 20px 1px rgba(0, 0, 0, 0.253) !important;
 }
 
-.cardfooter {
-  background: #5101d1;
-  padding: 0.5rem;
+.cardfooterparent {
   display: flex;
   align-items: center;
   box-sizing: border-box;
-  font-size: 1.1rem;
   justify-content: space-around;
+  background: #5101d1;
+  padding: 0.5rem;
+  font-size: 1.1rem;
 }
 
 .cardfooter button {
   text-decoration: none;
   color: white;
-  padding: 0.5rem 3rem;
+  padding: 0.3rem 3rem;
   border: none;
   font: inherit;
   background: transparent;
-  /* background: #ffffff;
-  color: #5101d1;
-  border-radius: 5px;
-  cursor: pointer; */
   vertical-align: middle;
   margin: 0;
+}
+
+.cardfooter button:hover {
+  background: #ffffff;
+  color: #5101d1;
+  border-radius: 5px;
 }
 
 .cardfooter2 button {
@@ -51,19 +53,11 @@
   border-radius: 5px;
 }
 
-/* .cardfooter button:hover,
-.cardfooter button:active,
-.cardfooter button:focus {
-  background: #ffffff;
-  color: #5101d1;
-  border-radius: 5px;
-} */
-
 .form__group {
   position: relative;
   padding: 15px 0 0;
   margin-top: 10px;
-  width: 90%;
+  width: 100%;
 }
 
 .form__field {
@@ -125,10 +119,11 @@
 .form-actions button {
   background: #5101d1;
   font: inherit;
+  font-size: 1.5rem;
   border: 1px solid #5101d1;
   border-radius: 3px;
-  padding: 0.25rem 1rem;
-  margin: 0.5rem 4rem;
+  padding: 0.5rem 3rem;
+  margin: 0.5rem 8.5rem;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.26);
   color: white;
   cursor: pointer;
