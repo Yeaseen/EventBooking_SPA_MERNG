@@ -3,8 +3,9 @@ import React, { useEffect, useContext, useRef, FormEvent } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import './Auth.css'
 import Swal from 'sweetalert2'
-
+import { Card } from 'react-bootstrap'
 import AuthContext from '../../context/auth-context'
+import '../../../node_modules//bootstrap/dist/css/bootstrap.min.css'
 
 const AuthPage = () => {
   const emailEL = useRef<HTMLInputElement>(null)
@@ -13,8 +14,12 @@ const AuthPage = () => {
 
   const contextType = useContext(AuthContext)
 
-  const switchModeHandler = () => {
-    setIsLogin(!isLogin)
+  const switchToLogIn = () => {
+    setIsLogin(true)
+  }
+
+  const switchToSignUp = () => {
+    setIsLogin(false)
   }
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -125,7 +130,57 @@ const AuthPage = () => {
       <form className="auth-form" onSubmit={onSubmit}>
         <h2>SimpleEvent</h2>
 
-        <div className="form__group field">
+        <Card border="primary" style={{ width: '30rem' }}>
+          <div className={'cardfooter ' + (isLogin ? 'cardfooter2' : '')}>
+            <button type="button" onClick={switchToLogIn}>
+              LogIn
+            </button>
+          </div>
+          <div className={'cardfooter ' + (isLogin ? '' : 'cardfooter2')}>
+            <button type="button" onClick={switchToSignUp}>
+              SignUp
+            </button>
+          </div>
+
+          <Card.Body>
+            <div className="form__group field">
+              <input
+                type="input"
+                ref={emailEL}
+                className="form__field"
+                placeholder="Email"
+                name="email"
+                id="email"
+                required
+              />
+              <label htmlFor="email" className="form__label">
+                Email
+              </label>
+            </div>
+
+            <div className="form__group field">
+              <input
+                type="password"
+                ref={passwordEL}
+                className="form__field"
+                placeholder="Password"
+                name="password"
+                id="password"
+                required
+              />
+              <label htmlFor="password" className="form__label">
+                Password
+              </label>
+            </div>
+          </Card.Body>
+          <Card.Footer>
+            <div className="form-actions">
+              <button type="submit">Submit</button>
+            </div>
+          </Card.Footer>
+        </Card>
+
+        {/* <div className="form__group field">
           <input
             type="input"
             ref={emailEL}
@@ -160,7 +215,7 @@ const AuthPage = () => {
           <button type="button" onClick={switchModeHandler}>
             Switch to {isLogin ? 'Signup' : 'Login'}
           </button>
-        </div>
+        </div> */}
       </form>
     </div>
   )

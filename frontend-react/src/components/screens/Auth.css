@@ -6,10 +6,58 @@
   margin: 10rem auto;
 }
 .auth-form h2 {
-  margin: auto 5rem;
+  margin: auto 8rem;
   font-size: 3rem;
   font-family: 'Grand Hotel', cursive;
+  margin-bottom: 1rem;
 }
+
+.card {
+  width: 30rem;
+}
+
+.card:hover {
+  box-shadow: 5px 10px 20px 1px rgba(0, 0, 0, 0.253) !important;
+}
+
+.cardfooter {
+  background: #5101d1;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  font-size: 1.1rem;
+  justify-content: space-around;
+}
+
+.cardfooter button {
+  text-decoration: none;
+  color: white;
+  padding: 0.5rem 3rem;
+  border: none;
+  font: inherit;
+  background: transparent;
+  /* background: #ffffff;
+  color: #5101d1;
+  border-radius: 5px;
+  cursor: pointer; */
+  vertical-align: middle;
+  margin: 0;
+}
+
+.cardfooter2 button {
+  background: #ffffff;
+  color: #5101d1;
+  border-radius: 5px;
+}
+
+/* .cardfooter button:hover,
+.cardfooter button:active,
+.cardfooter button:focus {
+  background: #ffffff;
+  color: #5101d1;
+  border-radius: 5px;
+} */
 
 .form__group {
   position: relative;
@@ -80,7 +128,7 @@
   border: 1px solid #5101d1;
   border-radius: 3px;
   padding: 0.25rem 1rem;
-  margin-right: 1rem;
+  margin: 0.5rem 4rem;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.26);
   color: white;
   cursor: pointer;
