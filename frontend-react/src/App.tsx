@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 
@@ -7,7 +7,6 @@ import AuthPage from './components/screens/Auth'
 import BookingsPage from './components/screens/Bookings'
 import EventsPage from './components/screens/Events'
 import MainNavigation from './components/Navigation/MainNavber'
-import Swal from 'sweetalert2'
 import AuthContext from './context/auth-context'
 
 const Routing = (props: { token: null | string }) => {

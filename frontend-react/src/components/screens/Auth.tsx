@@ -1,6 +1,6 @@
 // eslint-disable-next-line
-import React, { useEffect, useContext, useRef, FormEvent } from 'react'
-import { Link, withRouter } from 'react-router-dom'
+import React, { useContext, useRef, FormEvent } from 'react'
+import { withRouter } from 'react-router-dom'
 import './Auth.css'
 import Swal from 'sweetalert2'
 import { Card } from 'react-bootstrap'
@@ -37,6 +37,7 @@ const AuthPage = () => {
     //console.log(email, password)
 
     if (
+      // eslint-disable-next-line
       !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
         String(email).toLowerCase()
       )
@@ -132,9 +133,8 @@ const AuthPage = () => {
   return (
     <div className="main-content">
       <form className="auth-form" onSubmit={onSubmit}>
-        <h2>SimpleEvent</h2>
-
-        <Card border="primary" style={{ width: '30rem' }}>
+        <h2>EventPlanner</h2>
+        <Card border="primary" className="card">
           <div className="cardfooterparent">
             <div className={'cardfooter ' + (isLogin ? 'cardfooter2' : '')}>
               <button type="button" onClick={switchToLogIn}>
@@ -185,43 +185,6 @@ const AuthPage = () => {
             </div>
           </Card.Footer>
         </Card>
-
-        {/* <div className="form__group field">
-          <input
-            type="input"
-            ref={emailEL}
-            className="form__field"
-            placeholder="Email"
-            name="email"
-            id="email"
-            required
-          />
-          <label htmlFor="email" className="form__label">
-            Email
-          </label>
-        </div>
-
-        <div className="form__group field">
-          <input
-            type="password"
-            ref={passwordEL}
-            className="form__field"
-            placeholder="Password"
-            name="password"
-            id="password"
-            required
-          />
-          <label htmlFor="password" className="form__label">
-            Password
-          </label>
-        </div>
-
-        <div className="form-actions">
-          <button type="submit">Submit</button>
-          <button type="button" onClick={switchModeHandler}>
-            Switch to {isLogin ? 'Signup' : 'Login'}
-          </button>
-        </div> */}
       </form>
     </div>
   )

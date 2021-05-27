@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
 
 .auth-form {
-  width: 25rem;
+  width: 30rem;
   max-width: 80%;
   margin: 10rem auto;
 }
@@ -133,4 +133,20 @@
 .form-actions button:active {
   background: #5101d1;
   border-color: #01a7a7;
+}
+
+@media screen and (max-width: 500px) {
+  .auth-form {
+    margin: 7rem auto;
+  }
+  .auth-form h2 {
+    margin: auto 4rem;
+  }
+  .card {
+    width: 20rem;
+  }
+  .form-actions button {
+    padding: 0.5rem 3rem;
+    margin: 0rem 3.7rem;
+  }
 }

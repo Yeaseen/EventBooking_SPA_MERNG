@@ -1,6 +1,6 @@
 // eslint-disable-next-line
-import React, { useEffect, useState, useContext } from 'react'
-import { Link, withRouter } from 'react-router-dom'
+//import React, { useEffect, useState, useContext } from 'react'
+import { withRouter } from 'react-router-dom'
 const EventsPage = () => {
   return (
     <div className="main-content">
