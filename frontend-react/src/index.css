@@ -91,7 +91,13 @@ body {
 
 @media screen and (max-width: 500px) {
   .form-actions button {
-    padding: 0.5rem 3rem;
-    margin: 0rem 3.7rem;
+    padding: 0.3rem 2rem;
+    margin: 0rem 5rem;
+    font-size: 1.1rem;
+  }
+  .btn {
+    padding: 0.3rem 2rem;
+    margin: 0rem 5rem;
+    font-size: 1.1rem;
   }
 }

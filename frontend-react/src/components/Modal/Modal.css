@@ -1,10 +1,10 @@
 .modal {
-  width: 60rem;
-  height: 30vh;
+  width: 37rem;
+  height: 25vh;
   background: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   position: fixed;
-  top: 35vh;
+  top: 25vh;
   left: 32%;
   display: block;
 }
@@ -30,9 +30,30 @@
   padding: 1rem;
 }
 
-/* @media (min-width: 768px) {
+.modal__actions button {
+  background: #5101d1;
+  font: inherit;
+  font-size: 1.1rem;
+  border: 1px solid #5101d1;
+  border-radius: 3px;
+  padding: 0rem 1rem;
+  margin: 0.5rem 0.5rem;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.26);
+  color: white;
+  cursor: pointer;
+}
+
+.modal__actions button:hover,
+.modal__actions button:active {
+  background: #5101d1;
+  border-color: #01a7a7;
+}
+
+@media screen and (max-width: 500px) {
   .modal {
-    width: 50rem;
-    left: calc(100% - 50rem) / 2;
+    width: 80%;
+    left: 10%;
+    top: 30vh;
+    height: 35vh;
   }
-} */
+}
