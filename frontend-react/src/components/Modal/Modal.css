@@ -1,10 +1,10 @@
 .modal {
   width: 37rem;
-  height: 25vh;
+  height: 75vh;
   background: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   position: fixed;
-  top: 25vh;
+  top: 20vh;
   left: 32%;
   display: block;
 }
@@ -54,6 +54,6 @@
     width: 80%;
     left: 10%;
     top: 30vh;
-    height: 35vh;
+    height: 70vh;
   }
 }
