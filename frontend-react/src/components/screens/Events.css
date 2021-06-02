@@ -7,6 +7,20 @@
   max-width: 80%;
 }
 
+.events__list {
+  margin: 2rem auto;
+  width: 40rem;
+  max-width: 90%;
+  list-style: none;
+  padding: 0;
+}
+
+.events__list-items {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #5101d1;
+}
+
 @media screen and (max-width: 500px) {
   .events-control {
     width: 80%;
