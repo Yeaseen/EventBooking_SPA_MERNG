@@ -1,11 +1,11 @@
 import { withRouter } from 'react-router-dom'
 import './Events.css'
-import ModalCreated from '../Modal/Modal'
+import Modal from '../Modal/Modal'
 import Backdrop from '../Backdrop/Backdrop'
 import React, { useContext, useEffect, useRef } from 'react'
 import Swal from 'sweetalert2'
 import AuthContext from '../../context/auth-context'
-
+import EventList from '../../components/Events/EventList/EventList'
 const EventsPage = () => {
   const contextType = useContext(AuthContext)
   const [events, setEvents] = React.useState<any[]>([])
@@ -176,7 +176,7 @@ const EventsPage = () => {
       <React.Fragment>
         {creating && <Backdrop />}
         {creating && (
-          <ModalCreated {...props}>
+          <Modal {...props}>
             <form>
               <div className="form__group field">
                 <input
@@ -221,7 +221,6 @@ const EventsPage = () => {
                   Date
                 </label>
               </div>
-
               <div className="form-description">
                 <label htmlFor="description">Description</label>
                 <br></br>
@@ -233,7 +232,7 @@ const EventsPage = () => {
                 ></textarea>
               </div>
             </form>
-          </ModalCreated>
+          </Modal>
         )}
         {contextType.token && (
           <div className="events-control">
@@ -243,17 +242,7 @@ const EventsPage = () => {
             </button>
           </div>
         )}
-
-        <ul className="events__list">
-          <p>Created Events so far!</p>
-          {events.map((event) => {
-            return (
-              <li className="events__list-items" key={event._id}>
-                {event.title}
-              </li>
-            )
-          })}
-        </ul>
+        <EventList events={events} authUserId={contextType.userId} />
       </React.Fragment>
     </div>
   )
