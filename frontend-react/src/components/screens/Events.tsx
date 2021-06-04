@@ -2,26 +2,21 @@ import { withRouter } from 'react-router-dom'
 import './Events.css'
 import Modal from '../Modal/Modal'
 import Backdrop from '../Backdrop/Backdrop'
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import Swal from 'sweetalert2'
 import AuthContext from '../../context/auth-context'
 import EventList from '../../components/Events/EventList/EventList'
+import Spinner from '../../components/Spinner/Spinner'
 const EventsPage = () => {
   const contextType = useContext(AuthContext)
   const [events, setEvents] = React.useState<any[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [selectedEvent, setSelectedevent] = useState<any>(null)
 
   useEffect(() => {
     FetchEvents()
   }, [])
 
-  let props = {
-    title: 'Add Events',
-    children: null,
-    canCancel: true,
-    canConfirm: true,
-    onCancel: () => modalCancelHandler(),
-    onConfirm: () => modalConfirmHandler()
-  }
   const [creating, setCreating] = React.useState<boolean>(false)
 
   const titleEL = useRef<HTMLInputElement>(null)
@@ -35,7 +30,10 @@ const EventsPage = () => {
 
   const modalCancelHandler = () => {
     setCreating(false)
+    setSelectedevent(null)
   }
+
+  const bookEventHandler = () => {}
 
   const modalConfirmHandler = () => {
     if (titleEL && titleEL.current) {
@@ -72,8 +70,8 @@ const EventsPage = () => {
 
     setCreating(false)
     price = +price
-    const event = { title, price, date, description }
-    console.log(event)
+    //const event = { title, price, date, description }
+    //console.log(event)
 
     const requestBody = {
       query: `
@@ -84,10 +82,6 @@ const EventsPage = () => {
               description
               date
               price
-              creator {
-                _id
-                email
-              }
             }
           }
         `
@@ -117,8 +111,20 @@ const EventsPage = () => {
           return
         }
 
-        console.log(resData.data.createEvent)
-        setEvents([...events, resData.data.createEvent])
+        //console.log(resData.data.createEvent)
+        setEvents([
+          ...events,
+          {
+            _id: resData.data.createEvent._id,
+            title: resData.data.createEvent.title,
+            price: resData.data.createEvent.price,
+            description: resData.data.createEvent.description,
+            date: resData.data.createEvent.date,
+            creator: {
+              _id: contextType.userId
+            }
+          }
+        ])
         Swal.fire({
           position: 'top-end',
           icon: 'success',
@@ -133,6 +139,7 @@ const EventsPage = () => {
   }
 
   const FetchEvents = () => {
+    setIsLoading(true)
     const requestBody = {
       query: `
           query {
@@ -144,7 +151,6 @@ const EventsPage = () => {
               price
               creator {
                 _id
-                email
               }
             }
           }
@@ -165,18 +171,32 @@ const EventsPage = () => {
 
         const events = resData.data.events
         setEvents(events)
+        setIsLoading(false)
       })
       .catch((err) => {
         console.log(err)
+        setIsLoading(false)
       })
+  }
+
+  const showDetailHandler = (eventId: string) => {
+    const selected = events.find((e) => e._id === eventId)
+    //console.log(selected)
+    setSelectedevent(selected)
   }
 
   return (
     <div className="main-content">
       <React.Fragment>
-        {creating && <Backdrop />}
+        {(creating || selectedEvent) && <Backdrop />}
         {creating && (
-          <Modal {...props}>
+          <Modal
+            title="Add New Event"
+            canCancel={true}
+            canConfirm={true}
+            onCancel={modalCancelHandler}
+            onConfirm={modalConfirmHandler}
+          >
             <form>
               <div className="form__group field">
                 <input
@@ -234,6 +254,23 @@ const EventsPage = () => {
             </form>
           </Modal>
         )}
+
+        {selectedEvent && (
+          <Modal
+            title={selectedEvent.title}
+            canCancel={true}
+            canConfirm={true}
+            onCancel={modalCancelHandler}
+            onConfirm={bookEventHandler}
+          >
+            <h1>{selectedEvent.title}</h1>
+            <h2>
+              ${selectedEvent.price} -
+              {new Date(selectedEvent.date).toLocaleDateString()}
+            </h2>
+            <p>{selectedEvent.description}</p>
+          </Modal>
+        )}
         {contextType.token && (
           <div className="events-control">
             <p>Share your own Events!!</p>
@@ -242,7 +279,16 @@ const EventsPage = () => {
             </button>
           </div>
         )}
-        <EventList events={events} authUserId={contextType.userId} />
+
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <EventList
+            events={events}
+            authUserId={contextType.userId}
+            onViewDetail={showDetailHandler}
+          />
+        )}
       </React.Fragment>
     </div>
   )
