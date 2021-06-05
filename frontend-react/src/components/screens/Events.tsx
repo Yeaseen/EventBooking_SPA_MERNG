@@ -7,15 +7,12 @@ import Swal from 'sweetalert2'
 import AuthContext from '../../context/auth-context'
 import EventList from '../../components/Events/EventList/EventList'
 import Spinner from '../../components/Spinner/Spinner'
+
 const EventsPage = () => {
   const contextType = useContext(AuthContext)
   const [events, setEvents] = React.useState<any[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [selectedEvent, setSelectedevent] = useState<any>(null)
-
-  useEffect(() => {
-    FetchEvents()
-  }, [])
 
   const [creating, setCreating] = React.useState<boolean>(false)
 
@@ -23,6 +20,10 @@ const EventsPage = () => {
   const priceEL = useRef<HTMLInputElement>(null)
   const dateEL = useRef<HTMLInputElement>(null)
   const descriptionEL = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    FetchEvents()
+  }, [])
 
   const CreateEventModal = () => {
     setCreating(true)
@@ -188,7 +189,17 @@ const EventsPage = () => {
   return (
     <div className="main-content">
       <React.Fragment>
+        {contextType.token && (
+          <div className="events-control">
+            <p>Share your own Events!!</p>
+            <button className="btn" onClick={CreateEventModal}>
+              Create Event
+            </button>
+          </div>
+        )}
+
         {(creating || selectedEvent) && <Backdrop />}
+
         {creating && (
           <Modal
             title="Add New Event"
@@ -196,6 +207,7 @@ const EventsPage = () => {
             canConfirm={true}
             onCancel={modalCancelHandler}
             onConfirm={modalConfirmHandler}
+            confirmText="Confirm"
           >
             <form>
               <div className="form__group field">
@@ -262,22 +274,15 @@ const EventsPage = () => {
             canConfirm={true}
             onCancel={modalCancelHandler}
             onConfirm={bookEventHandler}
+            confirmText="Book"
           >
             <h1>{selectedEvent.title}</h1>
             <h2>
-              ${selectedEvent.price} -
+              ${selectedEvent.price} -{' '}
               {new Date(selectedEvent.date).toLocaleDateString()}
             </h2>
             <p>{selectedEvent.description}</p>
           </Modal>
-        )}
-        {contextType.token && (
-          <div className="events-control">
-            <p>Share your own Events!!</p>
-            <button className="btn" onClick={CreateEventModal}>
-              Create Event
-            </button>
-          </div>
         )}
 
         {isLoading ? (

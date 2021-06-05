@@ -1,14 +1,5 @@
 import './Modal.css'
 
-// interface customProps {
-//   title: string
-//   children: any
-//   canCancel: boolean
-//   canConfirm: boolean
-//   onCancel: () => void
-//   onConfirm: () => void
-// }
-
 const modal = (props: any) => (
   <div className="modal">
     <header className="modal__header">
@@ -17,7 +8,9 @@ const modal = (props: any) => (
     <section className="modal__content">{props.children}</section>
     <section className="modal__actions">
       {props.canCancel && <button onClick={props.onCancel}>Cancel</button>}
-      {props.canConfirm && <button onClick={props.onConfirm}>Confirm</button>}
+      {props.canConfirm && (
+        <button onClick={props.onConfirm}>{props.confirmText}</button>
+      )}
     </section>
   </div>
 )
