@@ -22,19 +22,13 @@ const EventsPage = () => {
   const descriptionEL = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
-    FetchEvents()
+    let componentMounted = true
+    FetchEvents(componentMounted)
+
+    return () => {
+      componentMounted = false
+    }
   }, [])
-
-  const CreateEventModal = () => {
-    setCreating(true)
-  }
-
-  const modalCancelHandler = () => {
-    setCreating(false)
-    setSelectedevent(null)
-  }
-
-  const bookEventHandler = () => {}
 
   const modalConfirmHandler = () => {
     if (titleEL && titleEL.current) {
@@ -139,8 +133,10 @@ const EventsPage = () => {
       })
   }
 
-  const FetchEvents = () => {
-    setIsLoading(true)
+  const FetchEvents = (componentMounted: boolean) => {
+    if (componentMounted) {
+      setIsLoading(true)
+    }
     const requestBody = {
       query: `
           query {
@@ -171,12 +167,85 @@ const EventsPage = () => {
         //console.log(resData)
 
         const events = resData.data.events
-        setEvents(events)
-        setIsLoading(false)
+        if (componentMounted) {
+          setEvents(events)
+          setIsLoading(false)
+        }
       })
       .catch((err) => {
+        //console.log(err)
+        if (componentMounted) {
+          setIsLoading(false)
+        }
+      })
+  }
+
+  const CreateEventModal = () => {
+    setCreating(true)
+  }
+
+  const modalCancelHandler = () => {
+    setCreating(false)
+    setSelectedevent(null)
+  }
+
+  const bookEventHandler = () => {
+    if (!contextType.token) {
+      setSelectedevent(null)
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'To Book an Event you must be logged in'
+      })
+      return
+    }
+
+    const requestBody = {
+      query: `
+          mutation {
+            bookEvent(eventId: "${selectedEvent._id}"){
+              _id
+              createdAt
+              updatedAt
+            }
+          }
+        `
+    }
+
+    const token = contextType.token
+
+    fetch('/graphql', {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((res) => res.json())
+      .then((resData) => {
+        // console.log(resData)
+        if (resData.errors) {
+          //console.log(resData.errors[0].message)
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: resData.errors[0].message
+          })
+          return
+        }
+        setSelectedevent(null)
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Selected Event booked Successfully',
+          showConfirmButton: false,
+          timer: 1200
+        })
+      })
+
+      .catch((err) => {
         console.log(err)
-        setIsLoading(false)
       })
   }
 

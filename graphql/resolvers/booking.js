@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 require('../../models/booking')
-
+require('../../models/event')
+const Event = mongoose.model('Event')
 const { transformedBooking } = require('./merge')
 const Booking = mongoose.model('Booking')
 
@@ -22,13 +23,17 @@ module.exports = {
     if (!req.isAuth) {
       throw new Error('Unauthenticated!')
     }
+    //console.log('Athentication barrier passed')
     try {
-      const fetchedEvent = await Event.findById({ _id: args.eventId })
+      //console.log(args.eventId)
+      const fetchedEvent = await Event.findOne({ _id: args.eventId })
+      //console.log(fetchedEvent)
       const booking = new Booking({
         user: req.userId,
         event: fetchedEvent
       })
       const result = await booking.save()
+      //console.log(result)
       return transformedBooking(result)
     } catch (error) {
       throw err
