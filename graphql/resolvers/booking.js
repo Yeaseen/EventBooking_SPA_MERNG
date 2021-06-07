@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 require('../../models/booking')
 require('../../models/event')
 const Event = mongoose.model('Event')
-const { transformedBooking } = require('./merge')
+const { transformedBooking, transformedEvent } = require('./merge')
 const Booking = mongoose.model('Booking')
 
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
       throw new Error('Unauthenticated!')
     }
     try {
-      const bookings = await Booking.find()
+      const bookings = await Booking.find({ user: req.userId })
       return bookings.map((booking) => {
         return transformedBooking(booking)
       })
@@ -45,7 +45,9 @@ module.exports = {
     }
     try {
       const booking = await Booking.findById(args.bookingId).populate('event')
+      //console.log(booking)
       const event = transformedEvent(booking.event)
+      //console.log(event)
       await Booking.deleteOne({ _id: args.bookingId })
       return event
     } catch (error) {

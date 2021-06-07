@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+
+.bookings__list {
+  list-style: none;
+  margin: 10rem auto;
+  padding: 0;
+  width: 50rem;
+  max-width: 90%;
+}
+
+.bookings__list h2 {
+  margin: 1rem 16rem;
+  font-size: 3rem;
+  font-family: 'Grand Hotel', cursive;
+}
+
+.bookings__item {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border: 1px solid #5101d1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bookings__item-actions button {
+  background: #5101d1;
+  font: inherit;
+  font-size: 1.1rem;
+  border: 1px solid #5101d1;
+  border-radius: 3px;
+  padding: 0rem 1rem;
+  margin: 0.5rem 0.5rem;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.26);
+  color: white;
+  cursor: pointer;
+}
+
+.bookings__item-actions button:hover,
+.bookings__item-actions button:active {
+  background: #5101d1;
+  border-color: #01a7a7;
+}
