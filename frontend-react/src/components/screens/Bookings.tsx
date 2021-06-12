@@ -66,7 +66,7 @@ const BookingsPage = () => {
   }
 
   const deleteBookingHandler = (bookingId: string) => {
-    setIsLoading(true)
+    //setIsLoading(true)
 
     const requestBody = {
       query: `
@@ -93,7 +93,7 @@ const BookingsPage = () => {
         //console.log(resData)
         if (resData.errors) {
           //console.log(resData.errors[0].message)
-          setIsLoading(false)
+          //setIsLoading(false)
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -108,11 +108,11 @@ const BookingsPage = () => {
         //console.log(updatedBookings)
         setBookings(updatedBookings)
         Swal.fire('Cancelled!', 'Your Booking has been cancelled!', 'success')
-        setIsLoading(false)
+        //setIsLoading(false)
       })
       .catch((err) => {
         //console.log(err)
-        setIsLoading(false)
+        //setIsLoading(false)
       })
   }
 
