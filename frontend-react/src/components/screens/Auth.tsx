@@ -31,15 +31,15 @@ const AuthPage = () => {
       passwordEL.current.focus()
     }
 
-    const email = emailEL.current?.value
-    const password = passwordEL.current?.value
+    const email: string = emailEL.current?.value!
+    const password: string = passwordEL.current?.value!
 
     //console.log(email, password)
 
     if (
       // eslint-disable-next-line
       !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        String(email).toLowerCase()
+        email.toLowerCase()
       )
     ) {
       Swal.fire({
@@ -51,28 +51,36 @@ const AuthPage = () => {
     }
 
     //console.log(email, password)
-
-    let requestBody = {
+    let requestBody: any
+    requestBody = {
       query: `
-        query {
-          login(email: "${email}", password: "${password}") {
+        query Login($email: String!, $password: String!){
+          login(email: $email, password: $password) {
             userId
             token
             tokenExpiration
           }
         }
-         `
+         `,
+      variables: {
+        email: email,
+        password: password
+      }
     }
     if (!isLogin) {
       requestBody = {
         query: `
-          mutation {
-            createUser(userInput: {email: "${email}", password: "${password}"}){
+          mutation CreateUser($email: String!, $password: String!) {
+            createUser(userInput: {email: $email, password: $password}) {
               _id
               email
             }
           }
-        `
+        `,
+        variables: {
+          email: email,
+          password: password
+        }
       }
     }
 

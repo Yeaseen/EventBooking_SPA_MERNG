@@ -44,34 +44,33 @@ const EventsPage = () => {
       descriptionEL.current.focus()
     }
 
-    const title = titleEL.current?.value as any
-    let price = priceEL.current?.value as any
-    const date = dateEL.current?.value as any
-    const description = descriptionEL.current?.value as any
+    const title: string = titleEL.current?.value!
+    const price: number = +priceEL.current?.value!
+    const date: string = dateEL.current?.value!
+    const description: string = descriptionEL.current?.value!
 
     if (
       title?.trim().length === 0 ||
-      price?.trim().length === 0 ||
+      price <= 0 ||
       date?.trim().length === 0 ||
       description?.trim().length === 0
     ) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
-        text: 'Need to fill all fields'
+        text: 'Need to fill all fields or Price is worthless'
       })
       return
     }
 
     setCreating(false)
-    price = +price
     //const event = { title, price, date, description }
     //console.log(event)
 
     const requestBody = {
       query: `
-          mutation {
-            createEvent(eventInput: {title: "${title}", price: ${price}, date: "${date}", description: "${description}"}){
+          mutation CreateEvent($title: String!, $price: Float!, $date: String!, $description: String!) {
+            createEvent(eventInput: {title: $title, price: $price, date: $date, description: $description}){
               _id
               title
               description
@@ -79,7 +78,13 @@ const EventsPage = () => {
               price
             }
           }
-        `
+        `,
+      variables: {
+        title: title,
+        price: price,
+        date: date,
+        description: description
+      }
     }
 
     //console.log(requestBody)
@@ -202,14 +207,17 @@ const EventsPage = () => {
 
     const requestBody = {
       query: `
-          mutation {
-            bookEvent(eventId: "${selectedEvent._id}"){
+          mutation BookEvent($id: ID!) {
+            bookEvent(eventId: $id){
               _id
               createdAt
               updatedAt
             }
           }
-        `
+        `,
+      variables: {
+        id: selectedEvent._id
+      }
     }
 
     const token = contextType.token
