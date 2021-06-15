@@ -12,6 +12,7 @@ module.exports = {
     }
     try {
       const bookings = await Booking.find({ user: req.userId })
+      //console.log(bookings)
       return bookings.map((booking) => {
         return transformedBooking(booking)
       })

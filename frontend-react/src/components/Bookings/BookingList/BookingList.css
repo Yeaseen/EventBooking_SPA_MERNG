@@ -2,15 +2,15 @@
 
 .bookings__list {
   list-style: none;
-  margin: 10rem auto;
+  margin: 2rem auto;
   padding: 0;
   width: 50rem;
   max-width: 90%;
 }
 
 .bookings__list h2 {
-  margin: 1rem 16rem;
-  font-size: 3rem;
+  margin: 1rem 19rem;
+  font-size: 2.5rem;
   font-family: 'Grand Hotel', cursive;
 }
 
