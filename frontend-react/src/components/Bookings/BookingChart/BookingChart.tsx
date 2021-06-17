@@ -21,6 +21,7 @@ const bookingsChart = (props: any) => {
   const chartData: any = { labels: [], datasets: [] }
 
   chartData.labels.push('Cheap', 'Normal', 'Expensive')
+
   chartData.datasets.push({
     label: 'Events',
     fillColor: 'rgba(220,220,220,0.5)',
@@ -43,29 +44,38 @@ const bookingsChart = (props: any) => {
   })
 
   const options = {
+    maintainAspectRatio: false,
     title: {
       display: true,
       text: 'Frequencies of Different Bookings based on Price',
-      fontSize: 10
+      fontSize: 25
+    },
+    layout: {
+      padding: {
+        left: 175,
+        right: 175,
+        bottom: 100,
+        top: 0
+      }
     },
     legend: {
       display: true,
-      position: 'right'
+      position: 'right',
+      label: {
+        fontColor: '#000'
+      }
     }
   }
 
   return (
-    <div style={{ textAlign: 'center' }}>
-      <p>Hello!</p>
-      <div className="chart">
-        <BarChart
-          type="bar"
-          data={chartData}
-          //width={30}
-          //height={20}
-          options={options}
-        />
-      </div>
+    <div className="chart">
+      <BarChart
+        type="bar"
+        data={chartData}
+        width={100}
+        height={500}
+        options={options}
+      />
     </div>
   )
 }

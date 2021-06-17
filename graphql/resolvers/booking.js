@@ -17,6 +17,7 @@ module.exports = {
         return transformedBooking(booking)
       })
     } catch (error) {
+      //console.log('Whats is going in bookings!')
       throw err
     }
   },

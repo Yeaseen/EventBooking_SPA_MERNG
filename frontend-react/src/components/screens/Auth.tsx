@@ -115,9 +115,9 @@ const AuthPage = () => {
             Swal.fire({
               position: 'top-end',
               icon: 'success',
-              title: 'Logged in Successfully',
+              title: resData.data.login.userId + ' Logged in Successfully',
               showConfirmButton: false,
-              timer: 1200
+              timer: 5000
             })
             return
           } else if (resData.data.createUser) {

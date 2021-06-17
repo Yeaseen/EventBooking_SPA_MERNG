@@ -18,24 +18,31 @@ const userLoader = new DataLoader((userIds) => {
 const events = async (eventIDs) => {
   try {
     const events = await Event.find({ _id: { $in: eventIDs } })
+    //console.log(events, eventIDs)
     events.sort((a, b) => {
       return (
-        eventIds.indexOf(a._id.toString()) - eventIds.indexOf(b._id.toString())
+        eventIDs.indexOf(a._id.toString()) - eventIDs.indexOf(b._id.toString())
       )
     })
+    //console.log(';===========================================================')
+    //console.log(events, eventIDs)
     return events.map((event) => {
       return transformedEvent(event)
     })
   } catch (err) {
+    //console.log('Whats is going in events!')
     throw err
   }
 }
 
 const singleEvent = async (eventId) => {
   try {
+    // console.log('IN SINGLE EVENT FUNCTION', eventId)
     const event = await eventLoader.load(eventId.toString())
+    //console.log('SingleEvent', event)
     return event
   } catch (error) {
+    //console.log('Whats is going in Sigle Event!')
     throw err
   }
 }
@@ -45,7 +52,7 @@ const user = async (userId) => {
     const user = await userLoader.load(userId.toString())
     return {
       ...user._doc,
-      createdEvents: () => eventLoader.loadMany(user.createdEvents)
+      createdEvents: () => eventLoader.loadMany(user._doc.createdEvents)
     }
   } catch (err) {
     throw err

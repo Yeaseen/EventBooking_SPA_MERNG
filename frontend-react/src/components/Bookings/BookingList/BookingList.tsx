@@ -20,7 +20,7 @@ const bookingList = (props: any) => {
   )
   return (
     <div className="bookings__list">
-      <h2>Booked Events!</h2>
+      <h2>Booked-Events!</h2>
       <ul>{bookings}</ul>
     </div>
   )
