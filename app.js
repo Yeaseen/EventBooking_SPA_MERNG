@@ -31,13 +31,17 @@ app.use(
   graphqlHTTP({
     schema: graphqlSchema,
     rootValue: graphqlResolvers,
-    graphiql: true
+    graphiql: false
   })
 )
 
-// app.get('/', (req, res, next) => {
-//   res.send('Welcome to the NODE Server')
-// })
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'))
+  const path = require('path')
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  })
+}
 
 app.listen(PORT, () => {
   console.log('Server is running on', PORT)
