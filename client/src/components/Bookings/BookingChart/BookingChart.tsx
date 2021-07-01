@@ -52,9 +52,9 @@ const bookingsChart = (props: any) => {
     },
     layout: {
       padding: {
-        left: 17,
-        right: 17,
-        bottom: 10,
+        left: 175,
+        right: 175,
+        bottom: 100,
         top: 0
       }
     },
@@ -85,7 +85,7 @@ const bookingsChart = (props: any) => {
           type="bar"
           data={chartData}
           width={100}
-          height={200}
+          height={500}
           options={options}
         />
       </div>
