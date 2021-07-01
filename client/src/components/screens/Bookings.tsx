@@ -119,7 +119,7 @@ const BookingsPage = () => {
         //setIsLoading(false)
       })
       .catch((err) => {
-        //console.log(err)
+        console.log(err)
         //setIsLoading(false)
       })
   }
