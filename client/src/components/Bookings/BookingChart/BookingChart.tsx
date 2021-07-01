@@ -52,19 +52,21 @@ const bookingsChart = (props: any) => {
     },
     layout: {
       padding: {
-        left: 175,
-        right: 175,
-        bottom: 100,
+        left: 17,
+        right: 17,
+        bottom: 10,
         top: 0
       }
     },
     options: {
       scales: {
-        yAxes: [{
-          ticks: {
-            precision: 0
+        yAxes: [
+          {
+            ticks: {
+              precision: 0
+            }
           }
-        }]
+        ]
       }
     },
     legend: {
@@ -78,13 +80,15 @@ const bookingsChart = (props: any) => {
 
   return (
     <div className="chart">
-      <BarChart
-        type="bar"
-        data={chartData}
-        width={100}
-        height={500}
-        options={options}
-      />
+      <div className="chart-design">
+        <BarChart
+          type="bar"
+          data={chartData}
+          width={100}
+          height={200}
+          options={options}
+        />
+      </div>
     </div>
   )
 }

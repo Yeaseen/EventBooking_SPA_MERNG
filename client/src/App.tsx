@@ -14,7 +14,6 @@ import BookingsPage from './components/screens/Bookings'
 import EventsPage from './components/screens/Events'
 import MainNavigation from './components/Navigation/MainNavber'
 import AuthContext from './context/auth-context'
-import Swal from 'sweetalert2'
 
 const Routing = () => {
   const contextType = useContext(AuthContext)
@@ -42,8 +41,7 @@ const Routing = () => {
     } else {
       history.push('/auth')
     }
-    // eslint-disable-next-line
-  }, [])
+  }, [contextType, history])
 
   return (
     <Switch>
@@ -74,14 +72,6 @@ function App() {
   const logout = () => {
     setToken(null)
     setUserId(null)
-    localStorage.clear()
-    Swal.fire({
-      position: 'top-end',
-      icon: 'success',
-      title: 'Logged out successfully',
-      showConfirmButton: false,
-      timer: 1500
-    })
   }
 
   return (

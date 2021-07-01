@@ -2,9 +2,8 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import AuthContext from '../../context/auth-context'
 import './MainNavigation.css'
-
+import Swal from 'sweetalert2'
 const mainNavigation = (props) => (
-  
   <AuthContext.Consumer>
     {(context) => {
       return (
@@ -28,7 +27,21 @@ const mainNavigation = (props) => (
                     <NavLink to="/bookings">Bookings</NavLink>
                   </li>
                   <li>
-                    <button onClick={context.logout}>Logout</button>
+                    <button
+                      onClick={() => {
+                        localStorage.clear()
+                        context.logout()
+                        Swal.fire({
+                          position: 'top-end',
+                          icon: 'success',
+                          title: 'Logged out successfully',
+                          showConfirmButton: false,
+                          timer: 1200
+                        })
+                      }}
+                    >
+                      Logout
+                    </button>
                   </li>
                 </React.Fragment>
               )}

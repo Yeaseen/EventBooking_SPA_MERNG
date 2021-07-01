@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 import React, { useContext, useRef, FormEvent } from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, useHistory } from 'react-router-dom'
 import './Auth.css'
 import Swal from 'sweetalert2'
 import { Card } from 'react-bootstrap'
@@ -13,6 +13,7 @@ const AuthPage = () => {
   const [isLogin, setIsLogin] = React.useState<boolean>(true)
 
   const contextType = useContext(AuthContext)
+  const history = useHistory()
 
   const switchToLogIn = () => {
     setIsLogin(true)
@@ -119,7 +120,6 @@ const AuthPage = () => {
               resData.data.login.tokenExpiration
             )
 
-            
             Swal.fire({
               position: 'top-end',
               icon: 'success',
@@ -127,7 +127,7 @@ const AuthPage = () => {
               showConfirmButton: false,
               timer: 1200
             })
-
+            history.push('/events')
             return
           } else if (resData.data.createUser) {
             Swal.fire({
@@ -138,6 +138,7 @@ const AuthPage = () => {
               timer: 1200
             })
             setIsLogin(true)
+            history.push('/auth')
             return
           }
         }

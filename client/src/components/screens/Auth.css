@@ -53,9 +53,9 @@
   border-radius: 5px;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 320px) {
   .auth-form {
-    margin: 7rem auto;
+    margin: 7rem auto 0rem 0rem;
   }
   .auth-form h2 {
     margin: auto 4rem;

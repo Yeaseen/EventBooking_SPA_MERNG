@@ -62,16 +62,21 @@
   border-radius: 5px;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 320px) {
   .main-navigation {
-    width: 50rem;
+    width: 40rem;
     justify-content: left;
+    height: 3rem;
   }
   .main-navigation__logo h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
   .main-navigation__items li {
     padding: 0rem 0rem;
-    font-size: 1.1rem;
+    font-size: 0.8rem;
+  }
+  .main-navigation__items a,
+  .main-navigation__items button {
+    padding: 0rem 0rem;
   }
 }

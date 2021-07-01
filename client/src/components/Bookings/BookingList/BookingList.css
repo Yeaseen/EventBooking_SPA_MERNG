@@ -41,3 +41,17 @@
   background: #5101d1;
   border-color: #01a7a7;
 }
+
+@media screen and (max-width: 320px) {
+  .bookings__list h2 {
+    margin: 1rem 4rem;
+    font-size: 1.5rem;
+    font-family: 'Grand Hotel', cursive;
+  }
+
+  .bookings__item-actions button {
+    font-size: 1rem;
+    padding: 0rem 0.5rem;
+    margin: 0.5rem 0.5rem;
+  }
+}
