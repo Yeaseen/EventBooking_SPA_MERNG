@@ -5,6 +5,7 @@ import { userContextState } from './type'
 const contextDefaultValues: userContextState = {
   token: null,
   userId: null,
+  tokenExpiration: null,
   login: (token: string, userId: string, tokenExpiration: string) => {},
   logout: () => {}
 }

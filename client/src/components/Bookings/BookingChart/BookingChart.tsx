@@ -58,6 +58,15 @@ const bookingsChart = (props: any) => {
         top: 0
       }
     },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            precision: 0
+          }
+        }]
+      }
+    },
     legend: {
       display: true,
       position: 'right',

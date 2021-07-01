@@ -7,6 +7,7 @@ import BookingsChart from '../../components/Bookings/BookingChart/BookingChart'
 import BookingsControls from '../../components/Bookings/BookingsControls/BookingsControls'
 import Swal from 'sweetalert2'
 const BookingsPage = () => {
+  // eslint-disable-next-line
   const contextType = useContext(AuthContext)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [bookings, setBookings] = React.useState<any[]>([])
@@ -48,7 +49,7 @@ const BookingsPage = () => {
       body: JSON.stringify(requestBody),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + contextType.token
+        Authorization: 'Bearer ' + localStorage.getItem('localToken')
       }
     })
       .then((res) => res.json())
@@ -93,7 +94,7 @@ const BookingsPage = () => {
       body: JSON.stringify(requestBody),
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + contextType.token
+        Authorization: 'Bearer ' + localStorage.getItem('localToken')
       }
     })
       .then((res) => res.json())
@@ -119,7 +120,7 @@ const BookingsPage = () => {
         //setIsLoading(false)
       })
       .catch((err) => {
-        console.log(err)
+        //console.log(err)
         //setIsLoading(false)
       })
   }

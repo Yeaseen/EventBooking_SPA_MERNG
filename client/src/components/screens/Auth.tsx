@@ -112,13 +112,22 @@ const AuthPage = () => {
               resData.data.login.tokenExpiration
             )
 
+            localStorage.setItem('localToken', resData.data.login.token)
+            localStorage.setItem('localUserId', resData.data.login.userId)
+            localStorage.setItem(
+              'localTokenExpiration',
+              resData.data.login.tokenExpiration
+            )
+
+            
             Swal.fire({
               position: 'top-end',
               icon: 'success',
               title: ' Logged in Successfully',
               showConfirmButton: false,
-              timer: 5000
+              timer: 1200
             })
+
             return
           } else if (resData.data.createUser) {
             Swal.fire({
