@@ -42,7 +42,7 @@
   border-color: #01a7a7;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 400px) {
   .bookings__list h2 {
     margin: 1rem 4rem;
     font-size: 1.5rem;

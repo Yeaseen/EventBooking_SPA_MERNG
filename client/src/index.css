@@ -89,7 +89,7 @@ body {
   border-color: #01a7a7;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 400px) {
   .form-actions button {
     padding: 0.3rem 2rem;
     margin: 0rem 5rem;
